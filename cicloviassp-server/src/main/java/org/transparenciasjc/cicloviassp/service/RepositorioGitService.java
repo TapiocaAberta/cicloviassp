@@ -60,8 +60,11 @@ public class RepositorioGitService {
 	public void passaPorArquivosCSV(Consumer<String> acao)
 			throws Exception {
 		Repository repository = pegarRepositorio();
+		Git git = new Git(repository);
 		log.warning("Trazendo dados do repositório");
-		new Git(repository).fetch().setCheckFetchedObjects(true).call();
+		log.warning(git.pull().call().getFetchResult().getMessages().concat("\n"));
+		log.warning(git.fetch().setCheckFetchedObjects(true).call().getMessages().concat("\n"));
+		log.warning("Finalizado");
 		ObjectId lastCommitId = repository.resolve(Constants.HEAD);
 		RevWalk revWalk = new RevWalk(repository);
 		RevCommit commit = revWalk.parseCommit(lastCommitId);
