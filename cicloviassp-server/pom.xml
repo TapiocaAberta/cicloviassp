@@ -10,8 +10,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<version.jboss.bom>8.0.0.Final</version.jboss.bom>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<maven.compiler.source>1.8</maven.compiler.source>		
-		<version.war.plugin>2.5</version.war.plugin>				
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<version.war.plugin>2.5</version.war.plugin>
 	</properties>
 
 	<dependencyManagement>
@@ -97,6 +97,11 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>2.4.1</version>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jgit</groupId>
+			<artifactId>org.eclipse.jgit</artifactId>
+			<version>3.7.1.201504261725-r</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

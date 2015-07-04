@@ -7,7 +7,7 @@
     <datasource jndi-name="java:jboss/datasources/CicloviasSPDS"
         pool-name="CicloviasSP" enabled="true"
         use-java-context="true">
-        <connection-url>jdbc:h2:mem:cicloviasp;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1</connection-url>
+        <connection-url>jdbc:h2:${jboss.server.data.dir}/cicloviassp;DB_CLOSE_DELAY=-1</connection-url>
         <driver>h2</driver>
         <security>
             <user-name>sa</user-name>

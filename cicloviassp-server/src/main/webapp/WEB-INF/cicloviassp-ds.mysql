@@ -2,8 +2,10 @@
 <datasources xmlns="http://www.jboss.org/ironjacamar/schema"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.jboss.org/ironjacamar/schema http://docs.jboss.org/ironjacamar/schema/datasources_1_0.xsd">
-	<datasource jta="true" jndi-name="java:jboss/datasources/CicloviasSPDS"
-		pool-name="CicloviasSP" enabled="true" use-java-context="true" use-ccm="true">
+	<datasource jndi-name="java:jboss/datasources/CicloviasSPDS"
+        pool-name="CicloviasSP" enabled="true"
+        use-java-context="true">
+        <!--  CREATE DATABASE cicloviassp  DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci; -->
 		<connection-url>jdbc:mysql://localhost:3306/cicloviassp</connection-url>
 		<driver>mysql</driver>
 		<transaction-isolation>TRANSACTION_READ_COMMITTED</transaction-isolation>
