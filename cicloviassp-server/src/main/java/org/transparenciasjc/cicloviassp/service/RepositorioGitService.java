@@ -2,7 +2,7 @@ package org.transparenciasjc.cicloviassp.service;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
@@ -27,7 +27,7 @@ public class RepositorioGitService {
 	// Se estiver no openshift ele encontra o caminho
 	private static String CAMINHO_REPO_LOCAL = System.getProperty(
 			"OPENSHIFT_DATA_DIR", System.getProperty("CAMINHO_REPOSITORIO",
-					"/opt/projects/DadosDaCiclovia_/"));
+					"/opt/projects/DadosDaCiclovia/"));
 
 	private static final String DADOS_CICLOVIAS_URL = "git@github.com:LabProdam/DadosDaCiclovia.git";
 
@@ -57,7 +57,7 @@ public class RepositorioGitService {
 	 * @param acao
 	 * @throws Exception
 	 */
-	public void passaPorArquivosCSV(Consumer<String> acao)
+	public void passaPorArquivosCSV(BiConsumer<String, String> acao)
 			throws Exception {
 		Repository repository = pegarRepositorio();
 		Git git = new Git(repository);
@@ -78,7 +78,7 @@ public class RepositorioGitService {
 		    } else {
 		    	String path = treeWalk.getPathString();
 		        if (path.endsWith("csv")) {
-					acao.accept(CAMINHO_REPO_LOCAL + path);
+					acao.accept(path, CAMINHO_REPO_LOCAL + path);
 				}
 		    }
 
