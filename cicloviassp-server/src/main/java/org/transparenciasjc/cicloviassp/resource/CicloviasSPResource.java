@@ -2,6 +2,7 @@ package org.transparenciasjc.cicloviassp.resource;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -14,6 +15,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.transparenciasjc.cicloviassp.helpers.CicloviaHelper;
+import org.transparenciasjc.cicloviassp.model.AnoMesesDiasDisponiveis;
 import org.transparenciasjc.cicloviassp.service.CicloviasSPService;
 
 /**
@@ -60,6 +62,13 @@ public class CicloviasSPResource {
 		return montaMapaDaSoma(ids, c -> {
 			return service.ocorrenciasSomadas(c, ano, mes, dia);
 		});
+	}
+	
+	@GET
+	@Path("{id}/datas-disponiveis")
+	public Set<AnoMesesDiasDisponiveis> anosMesesDiasDisponiveis(@PathParam("id") long id){
+		return service.anosMesesDiasDisponiveis(id);
+		
 	}
 
 	private Map<String, Map<Object, Long>> montaMapaDaSoma(String ids,

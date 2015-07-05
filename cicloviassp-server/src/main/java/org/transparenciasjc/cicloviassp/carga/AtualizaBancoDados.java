@@ -76,7 +76,6 @@ public class AtualizaBancoDados {
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
-						;
 					}
 				});
 	}
