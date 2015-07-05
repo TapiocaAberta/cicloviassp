@@ -23,7 +23,7 @@ import javax.persistence.Table;
 @NamedQueries({
 		@NamedQuery(name = "SomaOcorrenciaPorCicloviaAno", query = "SELECT MONTH(o.horario), COUNT(o) FROM Ocorrencia o WHERE o.ciclovia = :ciclovia AND YEAR(o.horario) = :ano GROUP BY MONTH(o.horario)", hints = { @QueryHint(name = "org.hibernate.cacheable", value = "true") }),
 		@NamedQuery(name = "SomaOcorrenciaPorCicloviaAnoMes", query = "SELECT DAY(o.horario), COUNT(o) FROM Ocorrencia o WHERE o.ciclovia = :ciclovia AND YEAR(o.horario) = :ano AND MONTH(o.horario) = :mes GROUP BY DAY(o.horario)", hints = { @QueryHint(name = "org.hibernate.cacheable", value = "true") }),
-		@NamedQuery(name = "SomaOcorrenciaPorCicloviaAnoMesDia", query = "SELECT HOUR(o.horario), COUNT(o) FROM Ocorrencia o WHERE o.ciclovia = :ciclovia AND YEAR(o.horario) = :ano AND MONTH(o.horario) = :mes AND DAY(o.horario) = :dia GROUP BY HOUR(o.horario)", hints = { @QueryHint(name = "org.hibernate.cacheable", value = "true") }),
+		@NamedQuery(name = "SomaOcorrenciaPorCicloviaAnoMesDia", query = "SELECT HOUR(o.horario), COUNT(o) FROM Ocorrencia o WHERE o.ciclovia = :ciclovia AND YEAR(o.horario) = :ano AND MONTH(o.horario) = :mes AND DAY(o.horario) = :dia AND HOUR(o.horario) <> 0 GROUP BY HOUR(o.horario)", hints = { @QueryHint(name = "org.hibernate.cacheable", value = "true") }),
 		@NamedQuery(name = "AnosMesesDisponiveis", query = "SELECT DISTINCT YEAR(o.horario), MONTH(o.horario), DAY(o.horario) FROM Ocorrencia o WHERE o.ciclovia = :ciclovia", hints = { @QueryHint(name = "org.hibernate.cacheable", value = "true") }) })		
 public class Ocorrencia {
 
