@@ -51,17 +51,17 @@ public class AtualizaBancoDados {
 	 * @throws Exception
 	 */
 	@PostConstruct
-	@Schedule(hour = "1")
+	@Schedule(hour = "*/1")
 	public void atualizaDados() throws Exception {
 		List<String> arquivosProcessados = cicloviaService
 				.arquivosProcessados();
 		repoService
-				.passaPorArquivosCSV((caminho) -> {
-					if (arquivosProcessados.indexOf(caminho) == -1) {
-						log.warning("Processando arquivo: " + caminho);
+				.passaPorArquivosCSV((caminhoNoGit, caminho) -> {
+					if (arquivosProcessados.indexOf(caminhoNoGit) == -1) {
+						log.warning("Processando arquivo: " + caminhoNoGit);
 						try {
 							ArquivoProcessado arquivoProcessado = new ArquivoProcessado();
-							arquivoProcessado.setArquivo(caminho);
+							arquivoProcessado.setArquivo(caminhoNoGit);
 							arquivoProcessado.setDataProcessamento(new Date());
 							arquivoProcessado.setQtdeLinhas(Files
 									.lines(Paths.get(caminho)).skip(1).count());
