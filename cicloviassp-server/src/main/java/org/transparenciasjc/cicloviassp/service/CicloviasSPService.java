@@ -102,18 +102,18 @@ public class CicloviasSPService {
 	 * @param id
 	 * @return
 	 */
-	public Set<AnoMesesDiasDisponiveis> anosMesesDiasDisponiveis(long id) {
+	public List<AnoMesesDiasDisponiveis> anosMesesDiasDisponiveis(long id) {
 		//TODO: fazer cache dessa bagunça
 		// Se alguém ver isso e tiver uma forma melhor de fazer me fale! To com sono e quero dormir..
-		Set<AnoMesesDiasDisponiveis> anosAnoMesesDiasDisponiveis;
+		List<AnoMesesDiasDisponiveis> anosAnoMesesDiasDisponiveis;
 		TypedQuery<Object[]> busca = em.createNamedQuery("AnosMesesDisponiveis", Object[].class);
 		busca.setParameter("ciclovia", id);
 		List<Object[]> resultado = busca.getResultList();
 		// coletando os anos disponíveis primeiramente
 		anosAnoMesesDiasDisponiveis = resultado.stream().map(l -> Integer.valueOf(l[0].toString()))
 				.distinct()
-				.map(AnoMesesDiasDisponiveis::new)
-				.collect(Collectors.toSet());
+				.map(AnoMesesDiasDisponiveis::new)			
+				.collect(Collectors.toList());
 		// agora para cada ano vamos coletar os meses e agrupar em um mapa cujo valor vai ser os dias para aquele mês
 		for(AnoMesesDiasDisponiveis anoMesDiaDisponivel : anosAnoMesesDiasDisponiveis) {
 			Map<Integer, List<Integer>> mesesDias = new HashMap<>();			
@@ -122,6 +122,7 @@ public class CicloviasSPService {
 			Set<Integer> meses = resultado.stream()
 					.filter(o -> ano == Integer.valueOf(o[0].toString()))
 					.map(o -> String.valueOf(o[1])).map(Integer::valueOf)
+					.distinct()
 					.collect(Collectors.toSet());
 			 // com os meses podemos pegar os dias!
 			for(int mes : meses) {
@@ -139,4 +140,5 @@ public class CicloviasSPService {
 		}
 		return anosAnoMesesDiasDisponiveis;
 	}
+
 }

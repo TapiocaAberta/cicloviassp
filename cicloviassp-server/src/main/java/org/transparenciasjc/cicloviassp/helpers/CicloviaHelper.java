@@ -2,6 +2,8 @@ package org.transparenciasjc.cicloviassp.helpers;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  * 
@@ -24,6 +26,10 @@ public class CicloviaHelper {
 
 	public static String nome(Long id) {
 		return ciclovias.get(id);
+	}
+
+	public static Set<Entry<Long, String>> ciclovias() {
+		return ciclovias.entrySet();
 	}
 
 }

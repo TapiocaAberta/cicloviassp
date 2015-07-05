@@ -2,6 +2,7 @@ package org.transparenciasjc.cicloviassp.resource;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -66,8 +67,14 @@ public class CicloviasSPResource {
 	
 	@GET
 	@Path("{id}/datas-disponiveis")
-	public Set<AnoMesesDiasDisponiveis> anosMesesDiasDisponiveis(@PathParam("id") long id){
+	public List<AnoMesesDiasDisponiveis> anosMesesDiasDisponiveis(@PathParam("id") long id){
 		return service.anosMesesDiasDisponiveis(id);
+		
+	}
+	
+	@GET
+	public Set<Entry<Long, String>> ciclovias(){
+		return CicloviaHelper.ciclovias();
 		
 	}
 
