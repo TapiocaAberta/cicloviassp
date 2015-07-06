@@ -7,6 +7,7 @@
 	<version>0.1.Alpha</version>
 	<name>Ciclovias SP: Um Dashboard</name>
 	<properties>
+		<version.war.plugin>2.1.1</version.war.plugin>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<version.jboss.bom>8.0.0.Final</version.jboss.bom>
 		<maven.compiler.target>1.8</maven.compiler.target>
@@ -117,6 +118,13 @@
 				<groupId>org.wildfly.plugins</groupId>
 				<artifactId>wildfly-maven-plugin</artifactId>
 				<version>1.1.0.Alpha1</version>
+			</plugin>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>${version.war.plugin}</version>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
