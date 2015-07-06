@@ -77,6 +77,13 @@ select {
 								ng-repeat="a in [ANO, MES, DIA]">{{a}}</button>
 						</div>
 					</div>
+					<div class="input-group">
+						<div class="btn-group" role="group">
+							<button type="button" class="btn btn-default"
+								ng-class="{active: comparando, notActive: !comparando}"
+								ng-click="habilitaComparacao()">Permitir Comparação</button>
+						</div>
+					</div>
 
 					<br /> <br />
 					<div class="input-group">
@@ -110,10 +117,21 @@ select {
 							ng-model="diaSelecionado" ng-options="dia for dia in dias">
 						</select>
 					</div>
-					<button class="form-control btn btn-default " 
-					ng-click="atualizar()" ng-disabled="carregando">
-						<span class="glyphicon glyphicon-refresh"></span>
-					</button> <span class="label label-warning" style="font-size: 16px" ng-show="carregando" id="lblCarregar">Carregando</span>
+					<div class="input-group">
+						<button class="form-control btn btn-default "
+							ng-click="atualizar()" ng-disabled="carregando">
+							<span class="glyphicon glyphicon-plus" ng-show="comparando"></span>
+							<span class="glyphicon glyphicon-refresh" ng-show="!comparando"></span>
+						</button>
+					</div>
+					<div class="input-group">
+						<button class="form-control btn btn-default " ng-click="limpar()"
+							ng-disabled="carregando">
+							<span class="glyphicon glyphicon-trash"></span>
+						</button>
+					</div>
+					<span class="label label-warning" style="font-size: 16px"
+						ng-show="carregando" id="lblCarregar">Carregando</span>
 				</form>
 			</div>
 			<div class="row">
@@ -156,6 +174,10 @@ select {
 							class="glyphicon glyphicon-refresh"></span> e o gráfico deverá
 							ser atualizado.
 						</li>
+						<li>Você pode também escolher a funcionalidade de comparar um
+							dia com o outro ou um mês com o outro, etc. Quando comparando
+							valores, o gráfico irá limpar os valores se você o tipo de
+							agregação.</li>
 
 					</ul>
 				</div>
@@ -192,8 +214,10 @@ select {
 					<div class="col-lg-12">
 						<p>
 							<strong> Desenvolvido por <a
-								href="http://transparenciasjc.github.io/">Dados
-									Abertos SJC</a>. Curta nossa <a href="https://www.facebook.com/pages/Dados-Abertos-SJC/436813019726917?ref=hl">página</a>.</strong>
+								href="http://transparenciasjc.github.io/">Dados Abertos SJC</a>.
+								Curta nossa <a
+								href="https://www.facebook.com/pages/Dados-Abertos-SJC/436813019726917?ref=hl">página</a>.
+							</strong>
 						</p>
 						<img src="imagens/dados_abertos_sjc.jpg" />
 					</div>

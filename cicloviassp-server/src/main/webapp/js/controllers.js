@@ -7,7 +7,7 @@ var ANO = 'Ano';
 var MES = 'Mês';
 var DIA = "Dia"
 var MESES = [ "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
-  			"Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro" ];
+		"Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro" ];
 
 cicloviasSPApp.controller('CicloviasSPController', function($scope, $http) {
 	/** ***** CONSTANTES ****** */
@@ -32,7 +32,11 @@ cicloviasSPApp.controller('CicloviasSPController', function($scope, $http) {
 			$scope.atualizar();
 		});
 	};
+	/** ***** INICIALIZAÇÔES ESTÁTICAS ****** */
 	$scope.agregacaoSelecionada = $scope.DIA;
+	$scope.comparando = false;
+	var busca = [];
+
 	/** ***** LISTENERS ****** */
 	$scope.carregaMeses = function() {
 		var meses = []
@@ -59,11 +63,19 @@ cicloviasSPApp.controller('CicloviasSPController', function($scope, $http) {
 		return a == $scope.agregacaoSelecionada;
 	}
 	$scope.selecionaAgregacao = function(a) {
+		busca = [];
 		$scope.agregacaoSelecionada = a;
 	}
-
+	$scope.habilitaComparacao = function() {
+		$scope.comparando = !$scope.comparando;
+	}
+	$scope.limpar = function() {
+		busca = [];
+		montaGrafico(busca, null);
+	}
+	
 	$scope.atualizar = function() {
-		$scope.carregando = true;
+		var nomeSerie = $scope.cicloviaSelecionada.value + " (";		
 		var url = "rest/ciclovia/" + $scope.cicloviaSelecionada.key
 				+ "/ocorrencias/";
 		var agregacao = $scope.agregacaoSelecionada;
@@ -72,16 +84,34 @@ cicloviasSPApp.controller('CicloviasSPController', function($scope, $http) {
 		var dia = $scope.diaSelecionado;
 		if (agregacao == $scope.ANO) {
 			url += ano;
+			nomeSerie += ano;
 		}
 		if (agregacao == $scope.MES) {
 			url += ano + "/" + mes;
+			nomeSerie += MESES[mes - 1] + "/ " + ano;
 		}
 		if (agregacao == $scope.DIA) {
-			url += +ano + "/" + mes + "/" + dia;
+			url += ano + "/" + mes + "/" + dia;
+			nomeSerie += dia + "/" + MESES[mes - 1] + "/ " + ano;
 		}
+		nomeSerie = nomeSerie + ")";
+		// se já existir uma série com esse valor a gente não adiciona e nem faz a busca
+		for(b in busca) {
+			if(busca[b].nome == nomeSerie) {
+				return;
+			}
+		}
+		$scope.carregando = true;
 		$http.get(url).success(function(dados) {
 			$scope.carregando = false;
-			montaGrafico(dados, $scope.agregacaoSelecionada);
+			if (!$scope.comparando) {
+				busca = [];
+			}
+			busca.push({
+				nome : nomeSerie,
+				dados : dados
+			});
+			montaGrafico(busca, $scope.agregacaoSelecionada);
 		});
 	};
 
@@ -99,53 +129,58 @@ cicloviasSPApp.controller('CicloviasSPController', function($scope, $http) {
  * 
  * @param dados
  */
-function montaGrafico(dados, agregacao) {
+function montaGrafico(busca, agregacao) {
 	var dadosGrafico = [];
 	var categorias = [];
 	var series = [];
 	// montando as séries em duas etapas
 	// 1) pega todas as categorias disponíveis de todos os dados
-	for (s in dados) {
-		$.each(dados[s], function(i, v) {
-			if (categorias.indexOf(i) == -1)
-				categorias.push(i);
-		});
+	for (res in busca) {
+		for (s in busca[res].dados) {
+			$.each(busca[res].dados[s], function(i, v) {
+				if (categorias.indexOf(i) == -1)
+					categorias.push(i);
+			});
+		}
 	}
 	categorias.sort(function(a, b) {
 		return a - b;
 	});
 	// 2) agora pra cada categoria disponível monta a série de dados
-	for (s in dados) {
-		var serie = {};
-		serie.name = s;
-		serie.data = []
-		for (c in categorias) {
-			var cat = categorias[c];
-			if (dados[s][cat]) {
-				serie.data.push(dados[s][cat]);
-			} else {
-				serie.data.push(0);
+	for (d in busca) {
+		for (s in busca[d].dados) {
+			var serie = {};
+			serie.name = busca[d].nome;
+			serie.data = [];
+			for (c in categorias) {
+				var cat = categorias[c];
+				var valor = busca[d].dados[s][cat];
+				if (valor) {
+					serie.data.push(valor);
+				} else {
+					serie.data.push(0);
+				}
 			}
+			series.push(serie);
 		}
-		series.push(serie);
 	}
 	// formata a categoria
 	var categoriasFormatada = [];
-	for(c in categorias) {
+	for (c in categorias) {
 		var i = categorias[c];
-		if(agregacao == ANO) {			
-			categoriasFormatada.push(MESES[i - 1]);			
-		} else{
-			categoriasFormatada.push(i);	
+		if (agregacao == ANO) {
+			categoriasFormatada.push(MESES[i - 1]);
+		} else {
+			categoriasFormatada.push(i);
 		}
-	}	
+	}
 	$("#grafico").highcharts({
 		title : {
 			text : ""
 		},
-		yAxis : {			
-			title: {
-				text: "Contagem ciclistas"
+		yAxis : {
+			title : {
+				text : "Contagem ciclistas"
 			},
 			min : 0
 		},
