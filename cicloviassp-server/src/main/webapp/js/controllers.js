@@ -3,13 +3,17 @@
  */
 var cicloviasSPApp = angular.module('cicloviasSPApp', []);
 
+var ANO = 'Ano';
+var MES = 'Mês';
+var DIA = "Dia"
+var MESES = [ "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+  			"Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro" ];
+
 cicloviasSPApp.controller('CicloviasSPController', function($scope, $http) {
 	/** ***** CONSTANTES ****** */
-	$scope.ANO = 'Ano';
-	$scope.MES = 'Mês';
-	$scope.DIA = "Dia"
-	var MESES = [ "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
-			"Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro" ];
+	$scope.ANO = ANO;
+	$scope.MES = MES;
+	$scope.DIA = DIA;
 
 	/** ***** INICIALIZAÇÔES ****** */
 	$http.get("rest/ciclovia").success(function(dados) {
@@ -77,7 +81,7 @@ cicloviasSPApp.controller('CicloviasSPController', function($scope, $http) {
 		}
 		$http.get(url).success(function(dados) {
 			$scope.carregando = false;
-			montaGrafico(dados);
+			montaGrafico(dados, $scope.agregacaoSelecionada);
 		});
 	};
 
@@ -95,7 +99,7 @@ cicloviasSPApp.controller('CicloviasSPController', function($scope, $http) {
  * 
  * @param dados
  */
-function montaGrafico(dados) {
+function montaGrafico(dados, agregacao) {
 	var dadosGrafico = [];
 	var categorias = [];
 	var series = [];
@@ -125,17 +129,28 @@ function montaGrafico(dados) {
 		}
 		series.push(serie);
 	}
-	;
-
+	// formata a categoria
+	var categoriasFormatada = [];
+	for(c in categorias) {
+		var i = categorias[c];
+		if(agregacao == ANO) {			
+			categoriasFormatada.push(MESES[i - 1]);			
+		} else{
+			categoriasFormatada.push(i);	
+		}
+	}	
 	$("#grafico").highcharts({
 		title : {
 			text : ""
 		},
-		yAxis : {
+		yAxis : {			
+			title: {
+				text: "Contagem ciclistas"
+			},
 			min : 0
 		},
 		xAxis : {
-			categories : categorias
+			categories : categoriasFormatada
 		},
 		plotOptions : {
 			series : {
