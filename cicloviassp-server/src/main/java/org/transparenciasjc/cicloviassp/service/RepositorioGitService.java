@@ -52,7 +52,7 @@ public class RepositorioGitService {
 
 	/**
 	 * 
-	 * Passa por cada arquivo do repositório e abre um stream para ele
+	 * Passa por cada arquivo do repositório após atualizar o mesmo
 	 * 
 	 * @param acao
 	 * @throws Exception
@@ -61,10 +61,7 @@ public class RepositorioGitService {
 			throws Exception {
 		Repository repository = pegarRepositorio();
 		Git git = new Git(repository);
-		log.warning("Trazendo dados do repositório");
-		log.warning(git.pull().call().getFetchResult().getMessages().concat("\n"));
-		log.warning(git.fetch().setCheckFetchedObjects(true).call().getMessages().concat("\n"));
-		log.warning("Finalizado");
+		atualizaRepositorio(git);
 		ObjectId lastCommitId = repository.resolve(Constants.HEAD);
 		RevWalk revWalk = new RevWalk(repository);
 		RevCommit commit = revWalk.parseCommit(lastCommitId);
@@ -83,5 +80,12 @@ public class RepositorioGitService {
 		    }
 
 		}
+	}
+
+	private void atualizaRepositorio(Git git) throws Exception {
+		log.warning("Trazendo dados do repositório");
+		log.warning(git.pull().call().getFetchResult().getMessages().concat("\n"));
+		log.warning(git.fetch().setCheckFetchedObjects(true).call().getMessages().concat("\n"));
+		log.warning("Finalizado");
 	}
 }

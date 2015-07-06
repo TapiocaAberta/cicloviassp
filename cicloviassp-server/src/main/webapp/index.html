@@ -61,7 +61,7 @@ select {
 				</div>
 			</div>
 			<p class="lead">
-				Um gráfico interativo de uso das ciclovias de São usando os <a
+				Um gráfico interativo de uso das ciclovias de São Paulo usando os <a
 					href="https://github.com/LabProdam/DadosDaCiclovia">dados
 					coletados das câmeras de contagem de ciclistas</a>.
 			</p>
@@ -74,7 +74,7 @@ select {
 							<button type="button" class="btn btn-default"
 								ng-class="{active: ehAgregacaoSelecionada(a), notActive: !ehAgregacaoSelecionada(a)}"
 								ng-click="selecionaAgregacao(a)"
-								ng-repeat="a in [TUDO, ANO, MES, DIA]">{{a}}</button>
+								ng-repeat="a in [ANO, MES, DIA]">{{a}}</button>
 						</div>
 					</div>
 
@@ -110,9 +110,10 @@ select {
 							ng-model="diaSelecionado" ng-options="dia for dia in dias">
 						</select>
 					</div>
-					<button class="form-control btn btn-default" ng-click="atualizar()">
+					<button class="form-control btn btn-default " 
+					ng-click="atualizar()" ng-disabled="carregando">
 						<span class="glyphicon glyphicon-refresh"></span>
-					</button>
+					</button> <span class="label label-warning" style="font-size: 16px" ng-show="carregando" id="lblCarregar">Carregando</span>
 				</form>
 			</div>
 			<div class="row">
@@ -120,12 +121,62 @@ select {
 			</div>
 		</div>
 	</section>
-	
+
 	<section id="funcionamento" class="funcionamento-section">
 		<div class="container">
-			<div class="row">
+			<div class="row" style="text-align: center">
 				<div class="col-lg-12">
 					<h1>Como Funciona?</h1>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-12">
+					<h3>Para usuários</h3>
+					<p>
+						A ideia é muito simples. Seguem os passos para visualizar os dados
+						no gráfico: <br />
+					</p>
+					<ul>
+						<li>Vocë escolhe se quer ver os dados por Ano, Mês ou Dia</li>
+						<li>Se escolher <strong>Ano</strong>, serão mostrados todos
+							os meses do ano escolhido e a contagem de ciclistas cada mês;
+						</li>
+						<li>Se escolher <strong>Mês</strong>, serão mostrados todos
+							os dias do mês/ano escolhidos e a contagem de ciclistas cada
+							dias;
+						</li>
+
+
+						<li>Se escolher <strong>Dia</strong>, serão mostrados todas
+							as horas do dias/mês/ano escolhidos e a contagem de cada hora;
+						</li>
+
+						<li>Ao realizar a sua escolha, clique no botão atualizar <span
+							class="glyphicon glyphicon-refresh"></span> e o gráfico deverá
+							ser atualizado.
+						</li>
+
+					</ul>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<h3>Programadores</h3>
+					<p>
+						Nosso código está no <a
+							href="https://github.com/transparenciasjc/cicloviassp">github</a>
+						e os dados no <a
+							href="https://github.com/LabProdam/DadosDaCiclovia/blob/master/2015/06/2015-06-14.csv">github
+							da LabProdam</a>.
+					</p>
+					<p>
+						Uma explicação mais detalhada sobre o funcionamento pode ser
+						encontrado no artigo <a
+							href="http://aprendendo-javaee.blogspot.com.br/2015/07/interagindo-com-repositorios-usando.html">Interagindo
+							com repositórios usando JGIT e a aplicação Ciclovias SP</a>.
+					</p>
+
 				</div>
 			</div>
 		</div>
@@ -136,6 +187,17 @@ select {
 			<div class="row">
 				<div class="col-lg-12">
 					<h1>Sobre</h1>
+				</div>
+				<div class="">
+					<div class="col-lg-12">
+						<p>
+							<strong> Desenvolvido por <a
+								href="http://transparenciasjc.github.io/">Dados
+									Abertos SJC</a>. Curta nossa <a href="https://www.facebook.com/pages/Dados-Abertos-SJC/436813019726917?ref=hl">página</a>.</strong>
+						</p>
+						<img src="imagens/dados_abertos_sjc.jpg" />
+					</div>
+
 				</div>
 			</div>
 		</div>
