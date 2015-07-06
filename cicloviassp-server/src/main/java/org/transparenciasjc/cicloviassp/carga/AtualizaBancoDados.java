@@ -11,7 +11,11 @@ import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.transparenciasjc.cicloviassp.helpers.CargaHelper;
 import org.transparenciasjc.cicloviassp.model.ArquivoProcessado;
 import org.transparenciasjc.cicloviassp.service.CicloviasSPService;
@@ -40,6 +44,9 @@ public class AtualizaBancoDados {
 
 	@Inject
 	Logger log;
+
+	@PersistenceContext
+	EntityManager em;
 
 	/**
 	 * 
@@ -78,5 +85,9 @@ public class AtualizaBancoDados {
 						}
 					}
 				});
+		// Limpa o cache..
+		Session s = (Session) em.getDelegate();
+		SessionFactory sf = s.getSessionFactory();
+		sf.getCache().evictAllRegions();
 	}
 }

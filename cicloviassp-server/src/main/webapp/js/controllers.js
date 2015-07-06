@@ -5,7 +5,6 @@ var cicloviasSPApp = angular.module('cicloviasSPApp', []);
 
 cicloviasSPApp.controller('CicloviasSPController', function($scope, $http) {
 	/** ***** CONSTANTES ****** */
-	$scope.TUDO = 'Tudo';
 	$scope.ANO = 'Ano';
 	$scope.MES = 'Mês';
 	$scope.DIA = "Dia"
@@ -26,9 +25,10 @@ cicloviasSPApp.controller('CicloviasSPController', function($scope, $http) {
 			$scope.datasDisponiveis = dados;
 			$scope.anoSelecionado = $scope.datasDisponiveis[0];
 			$scope.carregaMeses();
+			$scope.atualizar();
 		});
 	};
-	$scope.agregacaoSelecionada = $scope.TUDO;
+	$scope.agregacaoSelecionada = $scope.DIA;
 	/** ***** LISTENERS ****** */
 	$scope.carregaMeses = function() {
 		var meses = []
@@ -59,6 +59,7 @@ cicloviasSPApp.controller('CicloviasSPController', function($scope, $http) {
 	}
 
 	$scope.atualizar = function() {
+		$scope.carregando = true;
 		var url = "rest/ciclovia/" + $scope.cicloviaSelecionada.key
 				+ "/ocorrencias/";
 		var agregacao = $scope.agregacaoSelecionada;
@@ -74,8 +75,19 @@ cicloviasSPApp.controller('CicloviasSPController', function($scope, $http) {
 		if (agregacao == $scope.DIA) {
 			url += +ano + "/" + mes + "/" + dia;
 		}
-		$http.get(url).success(montaGrafico);
+		$http.get(url).success(function(dados) {
+			$scope.carregando = false;
+			montaGrafico(dados);
+		});
 	};
+
+	/** ***** INICIALIZAÇÔES DE ELEMENTOS ****** */
+	$('#lblCarregar').each(function() {
+		var elem = $(this);
+		setInterval(function() {
+			elem.fadeToggle(600);
+		}, 400);
+	});
 });
 
 /**
@@ -84,7 +96,6 @@ cicloviasSPApp.controller('CicloviasSPController', function($scope, $http) {
  * @param dados
  */
 function montaGrafico(dados) {
-	console.log(JSON.stringify(dados));
 	var dadosGrafico = [];
 	var categorias = [];
 	var series = [];
