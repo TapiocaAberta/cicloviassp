@@ -26,8 +26,7 @@ public class RepositorioGitService {
 
 	// Se estiver no openshift ele encontra o caminho
 	private static String CAMINHO_REPO_LOCAL = System.getProperty(
-			"OPENSHIFT_DATA_DIR", System.getProperty("CAMINHO_REPOSITORIO",
-					"/opt/projects/DadosDaCiclovia/"));
+			"OPENSHIFT_DATA_DIR", System.getProperty("jboss.server.data.dir") + "/dados_cicloviasp_git");
 
 	private static final String DADOS_CICLOVIAS_URL = "git@github.com:LabProdam/DadosDaCiclovia.git";
 
