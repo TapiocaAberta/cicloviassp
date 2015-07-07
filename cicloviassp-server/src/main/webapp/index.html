@@ -41,9 +41,9 @@ select {
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse navbar-ex1-collapse">
 				<ul class="nav navbar-nav">
-					<li><a class="page-scroll" href="#funcionamento">Como
+					<li><a class="page-scroll" href="#funcionamento" ng-show="!ehCelular">Como
 							Funciona?</a></li>
-					<li><a class="page-scroll" href="#sobre">Sobre</a></li>
+					<li><a class="page-scroll" href="#sobre" ng-show="!ehCelular">Sobre</a></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
@@ -140,7 +140,7 @@ select {
 		</div>
 	</section>
 
-	<section id="funcionamento" class="funcionamento-section">
+	<section id="funcionamento" class="funcionamento-section" ng-show="!ehCelular">
 		<div class="container">
 			<div class="row" style="text-align: center">
 				<div class="col-lg-12">
@@ -204,7 +204,7 @@ select {
 		</div>
 	</section>
 
-	<section id="sobre" class="sobre-section">
+	<section id="sobre" class="sobre-section" ng-show="!ehCelular">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
