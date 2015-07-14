@@ -41,7 +41,6 @@ cicloviasSPApp.controller('CicloviasSPController', function($scope, $http) {
 	};
 	/** ***** INICIALIZAÇÔES ESTÁTICAS ****** */
 	$scope.agregacaoSelecionada = $scope.DIA;
-	$scope.comparando = false;
 	$scope.ehCelular = window.mobileAndTabletcheck();
 	var busca = [];
 
@@ -73,9 +72,6 @@ cicloviasSPApp.controller('CicloviasSPController', function($scope, $http) {
 	$scope.selecionaAgregacao = function(a) {
 		busca = [];
 		$scope.agregacaoSelecionada = a;
-	}
-	$scope.habilitaComparacao = function() {
-		$scope.comparando = !$scope.comparando;
 	}
 	$scope.limpar = function() {
 		busca = [];
@@ -112,9 +108,6 @@ cicloviasSPApp.controller('CicloviasSPController', function($scope, $http) {
 		$scope.carregando = true;
 		$http.get(url).success(function(dados) {
 			$scope.carregando = false;
-			if (!$scope.comparando) {
-				busca = [];
-			}
 			busca.push({
 				nome : nomeSerie,
 				dados : dados
