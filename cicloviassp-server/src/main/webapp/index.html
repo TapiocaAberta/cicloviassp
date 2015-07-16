@@ -41,9 +41,9 @@ select {
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse navbar-ex1-collapse">
 				<ul class="nav navbar-nav">
-					<li><a class="page-scroll" href="#funcionamento">Como
-							Funciona?</a></li>
-					<li><a class="page-scroll" href="#sobre">Sobre</a></li>
+					<li><a class="page-scroll" href="#funcionamento"
+						ng-show="!ehCelular">Como Funciona?</a></li>
+					<li><a class="page-scroll" href="#sobre" ng-show="!ehCelular">Sobre</a></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
@@ -77,14 +77,6 @@ select {
 								ng-repeat="a in [ANO, MES, DIA]">{{a}}</button>
 						</div>
 					</div>
-					<div class="input-group">
-						<div class="btn-group" role="group">
-							<button type="button" class="btn btn-default"
-								ng-class="{active: comparando, notActive: !comparando}"
-								ng-click="habilitaComparacao()">Permitir Comparação</button>
-						</div>
-					</div>
-
 					<br /> <br />
 					<div class="input-group">
 						<span class="input-group-addon" id="cicloviaLbl">Ciclovia </span>
@@ -120,8 +112,7 @@ select {
 					<div class="input-group">
 						<button class="form-control btn btn-default "
 							ng-click="atualizar()" ng-disabled="carregando">
-							<span class="glyphicon glyphicon-plus" ng-show="comparando"></span>
-							<span class="glyphicon glyphicon-refresh" ng-show="!comparando"></span>
+							<span class="glyphicon glyphicon-plus"></span>
 						</button>
 					</div>
 					<div class="input-group">
@@ -140,7 +131,8 @@ select {
 		</div>
 	</section>
 
-	<section id="funcionamento" class="funcionamento-section">
+	<section id="funcionamento" class="funcionamento-section"
+		ng-show="!ehCelular">
 		<div class="container">
 			<div class="row" style="text-align: center">
 				<div class="col-lg-12">
@@ -170,15 +162,15 @@ select {
 							as horas do dias/mês/ano escolhidos e a contagem de cada hora;
 						</li>
 
-						<li>Ao realizar a sua escolha, clique no botão atualizar <span
-							class="glyphicon glyphicon-refresh"></span> e o gráfico deverá
-							ser atualizado.
+						<li>Ao realizar a sua escolha, clique no botão adicionar <span
+							class="glyphicon glyphicon-plus"></span> e o gráfico deverá ser
+							atualizado.
 						</li>
-						<li>Você pode também escolher a funcionalidade de comparar um
-							dia com o outro ou um mês com o outro, etc. Quando comparando
-							valores, o gráfico irá limpar os valores se você o tipo de
-							agregação.</li>
 
+						<li>Você pode clicar na lixeira <span
+							class="glyphicon glyphicon-trash"></span> e limpar todas as
+							buscas realizas e o gráfico deverá ser limpo.
+						</li>
 					</ul>
 				</div>
 			</div>
@@ -204,7 +196,7 @@ select {
 		</div>
 	</section>
 
-	<section id="sobre" class="sobre-section">
+	<section id="sobre" class="sobre-section" ng-show="!ehCelular">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
