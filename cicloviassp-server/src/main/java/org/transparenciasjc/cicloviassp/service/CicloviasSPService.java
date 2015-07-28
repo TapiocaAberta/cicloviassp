@@ -140,5 +140,19 @@ public class CicloviasSPService {
 		}
 		return anosAnoMesesDiasDisponiveis;
 	}
+	
+	public List<Ocorrencia> rankingPorDia() {
+		// TODO: Exceção vai ser lançada se esses métodos forem invocados. Implementar as named queries no futuro.
+		TypedQuery<Ocorrencia> busca = em.createNamedQuery(
+				"MontaRankingPorDia", Ocorrencia.class);		
+		return busca.getResultList();
+	}
+	
+	public List<Ocorrencia> rankingPorMes() {
+		// TODO: Exceção vai ser lançada se esses métodos forem invocados. Implementar as named queries no futuro.
+		TypedQuery<Ocorrencia> busca = em.createNamedQuery(
+				"MontaRankingPorMes", Ocorrencia.class);		
+		return busca.getResultList();
+	}
 
 }

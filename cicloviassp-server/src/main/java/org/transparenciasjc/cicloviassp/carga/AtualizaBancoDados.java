@@ -58,7 +58,7 @@ public class AtualizaBancoDados {
 	 * @throws Exception
 	 */
 	@PostConstruct
-	@Schedule(hour = "*/1")
+	@Schedule(hour = "1", dayOfMonth = "*", dayOfWeek = "*", minute="30")
 	public void atualizaDados() throws Exception {
 		List<String> arquivosProcessados = cicloviaService
 				.arquivosProcessados();
