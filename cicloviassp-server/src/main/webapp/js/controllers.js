@@ -34,7 +34,7 @@ cicloviasSPApp.controller('CicloviasSPController', function($scope, $http) {
 				+ "/datas-disponiveis"
 		$http.get(url).success(function(dados) {
 			$scope.datasDisponiveis = dados;
-			$scope.anoSelecionado = $scope.datasDisponiveis[0];
+			$scope.anoSelecionado = $scope.datasDisponiveis[dados.length -1];
 			$scope.carregaMeses();
 			$scope.atualizar();
 		});
@@ -54,7 +54,7 @@ cicloviasSPApp.controller('CicloviasSPController', function($scope, $http) {
 			});
 		}
 		$scope.meses = meses;
-		$scope.mesSelecionado = $scope.meses[0];
+		$scope.mesSelecionado = $scope.meses[meses.length - 1];
 		$scope.carregaDias();
 	};
 
@@ -64,7 +64,7 @@ cicloviasSPApp.controller('CicloviasSPController', function($scope, $http) {
 		$scope.dias.sort(function(a, b) {
 			return a - b
 		});
-		$scope.diaSelecionado = $scope.dias[0];
+		$scope.diaSelecionado = $scope.dias[$scope.dias.length - 1];
 	}
 	$scope.ehAgregacaoSelecionada = function(a) {
 		return a == $scope.agregacaoSelecionada;
