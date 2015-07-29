@@ -17,6 +17,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.transparenciasjc.cicloviassp.helpers.CicloviaHelper;
 import org.transparenciasjc.cicloviassp.model.AnoMesesDiasDisponiveis;
+import org.transparenciasjc.cicloviassp.model.Ocorrencia;
 import org.transparenciasjc.cicloviassp.service.CicloviasSPService;
 
 /**
@@ -70,6 +71,19 @@ public class CicloviasSPResource {
 	public List<AnoMesesDiasDisponiveis> anosMesesDiasDisponiveis(@PathParam("id") long id){
 		return service.anosMesesDiasDisponiveis(id);
 		
+	}
+	
+	// TODO: Exceção vai ser lançada se esses métodos forem invocados. Implementar as named queries no futuro.	
+//	@GET
+//	@Path("ranking/dia")
+	public List<Ocorrencia> rankingPorDia() {
+		return service.rankingPorDia();
+	}
+	
+//	@GET
+//	@Path("ranking/mes")
+	public List<Ocorrencia> rankingPorMes() {
+		return service.rankingPorMes();
 	}
 	
 	@GET
